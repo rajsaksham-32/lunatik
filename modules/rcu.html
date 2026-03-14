@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Lunatik API Documentation</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Lunatik</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Class_rcu_table">Class rcu_table </a></li>
+<li><a href="#rcu">rcu</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/byteorder.html">byteorder</a></li>
+  <li><a href="../modules/completion.html">completion</a></li>
+  <li><a href="../modules/cpu.html">cpu</a></li>
+  <li><a href="../modules/crypto.aead.html">crypto.aead</a></li>
+  <li><a href="../modules/crypto.comp.html">crypto.comp</a></li>
+  <li><a href="../modules/crypto.rng.html">crypto.rng</a></li>
+  <li><a href="../modules/crypto.shash.html">crypto.shash</a></li>
+  <li><a href="../modules/crypto.skcipher.html">crypto.skcipher</a></li>
+  <li><a href="../modules/darken.html">darken</a></li>
+  <li><a href="../modules/data.html">data</a></li>
+  <li><a href="../modules/device.html">device</a></li>
+  <li><a href="../modules/fib.html">fib</a></li>
+  <li><a href="../modules/fifo.html">fifo</a></li>
+  <li><a href="../modules/hid.html">hid</a></li>
+  <li><a href="../modules/lighten.html">lighten</a></li>
+  <li><a href="../modules/linux.html">linux</a></li>
+  <li><a href="../modules/lunatik.html">lunatik</a></li>
+  <li><a href="../modules/lunatik.runner.html">lunatik.runner</a></li>
+  <li><a href="../modules/mailbox.html">mailbox</a></li>
+  <li><a href="../modules/net.html">net</a></li>
+  <li><a href="../modules/netfilter.html">netfilter</a></li>
+  <li><a href="../modules/notifier.html">notifier</a></li>
+  <li><a href="../modules/probe.html">probe</a></li>
+  <li><strong>rcu</strong></li>
+  <li><a href="../modules/signal.html">signal</a></li>
+  <li><a href="../modules/skb.html">skb</a></li>
+  <li><a href="../modules/socket.html">socket</a></li>
+  <li><a href="../modules/socket.inet.html">socket.inet</a></li>
+  <li><a href="../modules/socket.raw.html">socket.raw</a></li>
+  <li><a href="../modules/socket.unix.html">socket.unix</a></li>
+  <li><a href="../modules/syscall.html">syscall</a></li>
+  <li><a href="../modules/syscall.table.html">syscall.table</a></li>
+  <li><a href="../modules/thread.html">thread</a></li>
+  <li><a href="../modules/xdp.html">xdp</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="">
+  <li><a href="../topics/README.md.html">README</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>rcu</code></h1>
+<p>RCU-synchronized hash table.</p>
+<p> Provides a concurrent hash table using Read-Copy-Update (RCU) synchronization.
+ Reads are lockless; writes are serialized. Keys are strings, values can be
+ booleans, integers, lunatik objects, or <code>nil</code> (to delete an entry).</p>
+
+<p> See <code>examples/shared.lua</code> for a practical example.</p>
+
+
+<h2><a href="#Class_rcu_table">Class rcu_table </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#rcu_table:__index">rcu_table:__index (key)</a></td>
+	<td class="summary">Retrieves a value from the table (RCU-protected, lockless).</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#rcu_table:__newindex">rcu_table:__newindex (key, value)</a></td>
+	<td class="summary">Sets or removes a value in the table (serialized).</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#rcu_table:map">rcu_table:map (callback)</a></td>
+	<td class="summary">Iterates over the table calling <code>callback(key, value)</code> for each entry.</td>
+	</tr>
+</table>
+<h2><a href="#rcu">rcu</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#table">table ([size=256])</a></td>
+	<td class="summary">Creates a new RCU hash table.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header has-description"><a name="Class_rcu_table"></a>Class rcu_table </h2>
+
+          <div class="section-description">
+          RCU hash table object.
+ Supports table-like access via <a href="../modules/rcu.html#rcu_table:__index">__index</a> and <a href="../modules/rcu.html#rcu_table:__newindex">__newindex</a>.
+          </div>
+            <h3>Usage:</h3>
+            <pre class="example"><span class="keyword">local</span> t = rcu.<span class="global">table</span>()
+t[<span class="string">"key"</span>] = <span class="keyword">true</span>        <span class="comment">-- boolean
+</span>t[<span class="string">"n"</span>]   = <span class="number">42</span>          <span class="comment">-- integer
+</span>t[<span class="string">"obj"</span>] = data.<span class="function-name">new</span>(<span class="number">8</span>) <span class="comment">-- object
+</span><span class="global">print</span>(t[<span class="string">"key"</span>])        <span class="comment">-- true
+</span>t[<span class="string">"key"</span>] = <span class="keyword">nil</span>         <span class="comment">-- delete</span></pre>
+    <dl class="function">
+    <dt>
+    <a name = "rcu_table:__index"></a>
+    <strong>rcu_table:__index (key)</strong>
+    </dt>
+    <dd>
+    Retrieves a value from the table (RCU-protected, lockless).
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">key</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a></span>
+
+
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">boolean</span>, <span class="type">integer</span>, <span class="type">object</span> or <span class="type">nil</span></span>
+
+
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "rcu_table:__newindex"></a>
+    <strong>rcu_table:__newindex (key, value)</strong>
+    </dt>
+    <dd>
+    Sets or removes a value in the table (serialized).
+ Assigning <code>nil</code> removes the entry.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">key</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a></span>
+
+
+
+        </li>
+        <li><span class="parameter">value</span>
+            <span class="types"><span class="type">boolean</span>, <span class="type">integer</span>, <span class="type">object</span> or <span class="type">nil</span></span>
+
+
+
+        </li>
+    </ul>
+
+
+    <h3>Raises:</h3>
+    Error on memory allocation failure.
+
+
+
+</dd>
+    <dt>
+    <a name = "rcu_table:map"></a>
+    <strong>rcu_table:map (callback)</strong>
+    </dt>
+    <dd>
+    Iterates over the table calling <code>callback(key, value)</code> for each entry.
+ Iteration is RCU-protected; order is not guaranteed.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">callback</span>
+            <span class="types"><span class="type">function</span></span>
+         <code>function(key, value)</code>.
+        </li>
+    </ul>
+
+
+    <h3>Raises:</h3>
+    Error if callback raises.
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="rcu"></a>rcu</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "table"></a>
+    <strong>table ([size=256])</strong>
+    </dt>
+    <dd>
+    Creates a new RCU hash table.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">size</span>
+            <span class="types"><span class="type">integer</span></span>
+         Number of hash buckets (rounded up to power of two).
+         (<em>default</em> 256)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">rcu_table</span></span>
+
+
+
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> t = rcu.<span class="global">table</span>()      <span class="comment">-- 256 buckets (default)
+</span><span class="keyword">local</span> t = rcu.<span class="global">table</span>(<span class="number">8192</span>)  <span class="comment">-- 8192 buckets</span></pre>
+    </ul>
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2026-03-14 23:30:38 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
